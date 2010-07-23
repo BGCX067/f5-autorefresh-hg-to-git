@@ -1,0 +1,13 @@
+-----------------------------------
+f5 - autorefresh plugin for jQuery.
+-----------------------------------
+
+f5example directory contains basic f5 usage example:
+
+- copy f5example directory to your www root directory
+- make sure your web server is running
+- using any web browser, go to http://localhost/f5example
+- open style.css in any text editor and change body color
+- save changes
+- observe changes in the browser :)
+
