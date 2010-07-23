@@ -1,3 +1,13 @@
+/*!
+ * f5 - autorefresh jQuery plugin v1.4.2
+ * http://code.google.com/p/f5-autorefresh/
+ *
+ * Copyright 2010, Pawel Turlejski
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Date: Friday July 23 2010 
+ */
 (function($) {
     $.f5 = function(options) {
         var settings = $.extend({
