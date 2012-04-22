@@ -25,16 +25,16 @@
                                                         // Set toggle: false to disable.
         }, options)
         
-        var _fetch_css = function (call_after, css_idx) {
-            if (css_idx < _css.length) {
-                var css = _css[css_idx];
-                var xhr = $.ajax({url: css.url, cache: false, type: 'GET', success: function(content) {
+        var _fetch_item = function (item_index, call_after) {
+            if (item_index < _items.length) {
+                var css = _items[item_index];
+                var xhr = $.ajax({url: css.url, cache: false, success: function(content) {
                     var cur_updated = xhr.getResponseHeader('Last-Modified')
                     if (css.updated != cur_updated && css.updated != -1) {
                         window.location.reload()
                     }
                     css.updated = cur_updated
-                    _fetch_css(call_after, css_idx + 1)
+                    _fetch_item(item_index + 1, call_after)
                 }});
 
             }
@@ -43,29 +43,12 @@
             }
         }
 
-        var _fetch_html = function (call_after) {
-            if (_html) {
-                var xhr = $.ajax({url: _html.url, cache: false, type: 'GET', success: function() {
-                    var cur_updated = xhr.getResponseHeader('Last-Modified');
-                    if (_html.updated != cur_updated && _html.updated != -1) {
-                        window.location.reload()
-                        return;
-                    }
-                    _html.updated = cur_updated
-                    _fetch_css(call_after, 0)
-                }});
-            }
-            else  {
-                _fetch_css(call_after, 0)
-            }
-        }
-
         var _run = function() {
             _running = false
             if (_paused)
                 return;
             _running = true
-            setTimeout(function () {_fetch_html(_run)}, settings.timeout);
+            setTimeout(function () { _fetch_item(0, _run) }, settings.timeout);
         }
 
         var _toggle = function () {
@@ -76,8 +59,7 @@
 
         var _paused = !settings.autostart, 
             _running = false,
-            _html = settings.html ? {url: '', updated: -1} : false, 
-            _css = []
+            _items = settings.html ? [{url: '', updated: -1}] : []
 
         if (settings.css === 'all') {
             $("link[rel=stylesheet]").each(function(){ 
@@ -85,12 +67,12 @@
                 if (this.href.indexOf('data:') > -1) {
                     return
                 }
-                _css[_css.length] = {url: this.href, updated: -1};
+                _items[_items.length] = {url: this.href, updated: -1};
             })
         }
         else {
             for (var i in settings.css)
-                _css[_css.length] = {url: settings.css[i], updated: -1}
+                _items[_items.length] = {url: settings.css[i], updated: -1}
         }
 
         if (settings.toggle)
