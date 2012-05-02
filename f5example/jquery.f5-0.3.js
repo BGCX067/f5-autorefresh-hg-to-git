@@ -28,7 +28,7 @@
         var _fetch_item = function (item_index, call_after) {
             if (item_index < _items.length) {
                 var css = _items[item_index];
-                var xhr = $.ajax({url: css.url, cache: false, success: function(content) {
+                var xhr = $.ajax({url: css.url, cache: false, type: 'HEAD', success: function(content) {
                     var cur_updated = xhr.getResponseHeader('Last-Modified')
                     if (css.updated != cur_updated && css.updated != -1) {
                         window.location.reload()
